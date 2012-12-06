@@ -60,7 +60,7 @@ define rbenv::compile(
     user        => $user,
     group       => $group,
     cwd         => $home_path,
-    environment => [ "HOME=${home_path}" ],
+    environment => [ "HOME=${home_path}", "RBENV_ROOT=${root_path}" ],
     creates     => "${versions}/${ruby}",
     path        => $path,
     require     => Rbenv::Plugin["rbenv::plugin::rubybuild::${user}"],
@@ -73,7 +73,7 @@ define rbenv::compile(
     group       => $group,
     cwd         => $home_path,
     onlyif      => "[ -e '${root_path}/.rehash' ]",
-    environment => [ "HOME=${home_path}" ],
+    environment => [ "HOME=${home_path}", "RBENV_ROOT=${root_path}" ],
     path        => $path,
   }
 
