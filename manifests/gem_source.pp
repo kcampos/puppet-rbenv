@@ -14,10 +14,6 @@ define rbenv::gem_source(
   $home_path = $home ? { '' => "/home/${user}", default => $home }
   $root_path = $root ? { '' => "${home_path}/.rbenv", default => $root }
 
-  if ! defined( Exec["rbenv::compile ${user} ${ruby}"] ) {
-    fail("Rbenv-Ruby ${ruby} for user ${user} not found in catalog")
-  }
-
   rbenvgemsource {"${user}/${ruby}/${gem_source}/${ensure}":
     ensure    => $ensure,
     user      => $user,
