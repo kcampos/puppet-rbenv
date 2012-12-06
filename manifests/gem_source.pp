@@ -20,6 +20,5 @@ define rbenv::gem_source(
     gemsource => $gem_source,
     ruby      => $ruby,
     rbenv     => "${root_path}/versions/${ruby}",
-    require   => Exec["rbenv::compile ${user} ${ruby}"],
   }
 }
