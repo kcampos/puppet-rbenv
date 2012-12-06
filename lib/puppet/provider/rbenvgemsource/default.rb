@@ -5,7 +5,6 @@ Puppet::Type.type(:rbenvgemsource).provide :default do
 
   def add
     args = ['--add']
-    args << "-v#{resource[:ensure]}" if !resource[:ensure].kind_of?(Symbol)
     args << gem_source
 
     output = gemsource(*args)
@@ -17,7 +16,7 @@ Puppet::Type.type(:rbenvgemsource).provide :default do
   end
 
   def latest
-    @latest ||= list(:remote)
+    @latest ||= list()
   end
 
   def current
@@ -35,7 +34,7 @@ Puppet::Type.type(:rbenvgemsource).provide :default do
     end
 
     def list()
-      args = ['list']
+      args = ["--list | egrep -e '^[^\*|\s]'"]
 
       gemsource(*args).lines.map do |line|
         line =~ /^(?:\S+)\s+\((.+)\)/
