@@ -2,17 +2,17 @@ Puppet::Type.newtype(:rbenvgemsource) do
   desc 'A Gem source installed inside an rbenv-installed Ruby'
 
   ensurable do
-    newvalue(:present) { provider.install   }
-    newvalue(:absent ) { provider.uninstall }
+    newvalue(:present) { provider.add   }
+    newvalue(:absent ) { provider.remove }
 
     newvalue(:latest) {
-      provider.uninstall if provider.current
-      provider.install
+      provider.remove if provider.current
+      provider.add
     }
 
     newvalue(/./)  do
       provider.uninstall if provider.current
-      provider.install
+      provider.add
     end
 
     aliasvalue :installed, :present
