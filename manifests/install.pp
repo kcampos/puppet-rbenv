@@ -37,8 +37,9 @@ define rbenv::install(
   
   if $global {
     file { $rbenv::params::global_profile_path:
-      ensure => file,
-      content => "export RBENV_ROOT=${root_path}\nexport PATH=${shims}:${bin}:\$PATH\neval \"$(rbenv init -)\""
+      ensure  => file,
+      content => "export RBENV_ROOT=${root_path}\nexport PATH=${shims}:${bin}:\$PATH\neval \"$(rbenv init -)\"",
+      mode    => 0755
     }
   }
   else {
