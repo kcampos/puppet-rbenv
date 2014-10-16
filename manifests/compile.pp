@@ -8,8 +8,7 @@ define rbenv::compile(
   $home   = '',
   $root   = '',
   $source = '',
-  $global = false,
-  $flags  = ''
+  $global = false
 ) {
 
   # Workaround http://projects.puppetlabs.com/issues/9848
@@ -61,7 +60,7 @@ define rbenv::compile(
     user        => $user,
     group       => $group,
     cwd         => $home_path,
-    environment => [ "HOME=${home_path}", "RBENV_ROOT=${root_path}", "CFLAGS='${flags}'" ],
+    environment => [ "HOME=${home_path}", "RBENV_ROOT=${root_path}" ],
     creates     => "${versions}/${ruby}",
     path        => $path,
     require     => Rbenv::Plugin["rbenv::plugin::rubybuild::${user}"],
