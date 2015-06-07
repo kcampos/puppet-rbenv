@@ -81,6 +81,17 @@ rbenv::compile { "patched-ree":
 }
 ```
 
+If you're using debugger gems, you'll probably need to keep source tree after building.
+This is achieved by passing `keep => true` parameter.
+
+```
+rbenv::compile { "bar/1.8.7":
+  user => bar",
+  ruby => "1.8.7-p370",
+  keep => true,
+}
+```
+
 ## Gem installation
 
 You can install and keep gems updated for a specific ruby interpreter:
@@ -95,6 +106,16 @@ rbenv::gem { "unicorn":
 Gems are handled using a custom Package provider that handles gems,
 somewhat inspired by Puppet's Package one - thus `absent` and `latest`
 work as expected.
+
+You can specify a gem source with the optional `source` parameter:
+
+```
+rbenv::gem { "my_private_gem":
+  user   => "foobarbaz",
+  ruby   => "1.9.3-p327",
+  source => "http://gems.mydoma.in/"
+}
+```
 
 ## rbenv plugins
 
@@ -158,6 +179,21 @@ The `--libdir=\\$modulepath/rbenv/lib` argument is important to make
 puppet aware of the rbenvgem custom provider and type.
 
 
+## Notes
+
+This project contains a custom `rbenvgem` type for use by the client via module.
+
+Custom types and facts (plugins) are gathered together and distributed via a file mount on
+your Puppet master.
+
+To enable module distribution you need to make changes on both the Puppet master and the clients.
+Specifically, `pluginsync` must be enabled in puppet.conf configuration file on both the master and the clients.
+
+```
+[main]
+pluginsync = true
+```
+
 ## Supported Platforms
 
 * CentOS
@@ -170,4 +206,4 @@ puppet aware of the rbenvgem custom provider and type.
 
 MIT License.
 
-Copyright 2012 Andreas Loupasakis, Marcello Barnaba <vjt@openssl.it>
+Copyright 2012-2015 Andreas Loupasakis, Marcello Barnaba <vjt@openssl.it>, Fabio Rehm

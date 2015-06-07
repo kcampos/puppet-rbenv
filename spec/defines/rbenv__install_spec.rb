@@ -8,12 +8,13 @@ describe 'rbenv::install', :type => :define do
   context 'install rbenv' do
     it "clones rbenv from the official repository" do
       should contain_exec("rbenv::checkout #{user}").
-        with_command("git clone git://github.com/sstephenson/rbenv.git /home/#{user}/.rbenv")
+        with_command("git clone https://github.com/sstephenson/rbenv.git /home/#{user}/.rbenv")
     end
 
     it "appends in a rc file, a command to include .rbenv/bin folder in PATH env variable" do
       should contain_exec("rbenv::shrc #{user}").
-        with_command("echo 'source /home/#{user}/.rbenvrc' >> /home/#{user}/.profile")
+        with_command("echo 'source /home/#{user}/.rbenvrc' >> /home/#{user}/.profile").
+        with_path(['/bin','/usr/bin','/usr/sbin'])
     end
 
     it "creates a cache folder" do
