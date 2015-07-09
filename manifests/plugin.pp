@@ -39,7 +39,7 @@ define rbenv::plugin(
   }
 
   exec { "rbenv::plugin::update ${user} ${plugin_name}":
-    command => 'git pull',
+    command => 'git reset --hard && git pull',
     user    => $user,
     group   => $group,
     path    => ['/bin', '/usr/bin', '/usr/sbin'],
