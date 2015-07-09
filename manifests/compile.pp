@@ -112,5 +112,11 @@ define rbenv::compile(
       group   => $group,
       require => Exec["rbenv::compile ${user} ${ruby}"]
     }
+    
+    file { '/etc/profile.d/rbenv.sh':
+      ensure  => file,
+      content => "export RBENV_ROOT=${root_path}\nexport PATH=${shims}:${bin}:\$PATH\neval \"$(rbenv init -)\"",
+      mode    => 0755
+    }
   }
 }
